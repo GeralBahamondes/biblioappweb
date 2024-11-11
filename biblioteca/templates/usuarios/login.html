@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+
+{% block title %}Iniciar Sesión{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center mt-5">
+    <div class="col-md-6">
+        <div class="card shadow-lg border-0">
+            <div class="card-header text-center navbar-custom text-white">
+                <h2 class="mb-0">Iniciar Sesión</h2>
+            </div>
+            <div class="card-body">
+                <form method="post">
+                    {% csrf_token %}
+                    {% for field in form %}
+                    <div class="form-group">
+                        {% if field.label == "Password" %}
+                            <label for="{{ field.id_for_label }}" class="font-weight-bold">Contraseña</label>
+                        {% else %}
+                            <label for="{{ field.id_for_label }}" class="font-weight-bold">{{ field.label }}</label>
+                        {% endif %}
+                        {{ field.errors }}
+                        {{ field }}
+                        {% if field.help_text %}
+                        <small class="form-text text-muted">{{ field.help_text }}</small>
+                        {% endif %}
+                    </div>
+                    {% endfor %}
+                    <button type="submit" class="btn navbar-custom btn-block text-white py-2">Iniciar Sesión</button>
+                    <div class="text-center mt-3">
+                        <a href="{% url 'registro' %}" class="btn btn-link text-muted">¿No tienes cuenta? Regístrate</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

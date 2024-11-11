@@ -1,0 +1,107 @@
+{% extends 'base.html' %}
+
+{% block title %}Inicio - Biblioteca{% endblock %}
+
+{% block content %}
+<style>
+    /* Estilos para la barra de navegación */
+    .navbar-custom {
+        background-color: #8B4513; /* Color café claro */
+    }
+    .navbar-custom .navbar-brand,
+    .navbar-custom .nav-link {
+        color: #FFFFFF !important; /* Letras en blanco */
+    }
+</style>
+
+<nav class="navbar navbar-expand-md navbar-custom fixed-top">
+    <a class="navbar-brand" href="{% url 'index' %}">Biblioteca</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarContent"
+            aria-controls="navbarContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarContent">
+        <ul class="navbar-nav mr-auto">
+            {% if user.is_authenticated %}
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'libros' %}">Libros</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'historial' %}">Historial</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'perfil' %}">Perfil</a>
+                </li>
+                {% if user.es_bibliotecario %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'gestion_libros' %}">Gestión de Libros</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'gestion_usuarios' %}">Gestión de Usuarios</a>
+                    </li>
+                {% endif %}
+            {% endif %}
+        </ul>
+
+        <ul class="navbar-nav ml-auto">
+            {% if user.is_authenticated %}
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'logout' %}">Cerrar sesión</a>
+                </li>
+            {% else %}
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'login' %}">Iniciar sesión</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'registro' %}">Registrarse</a>
+                </li>
+            {% endif %}
+        </ul>
+    </div>
+</nav>
+
+<div class="jumbotron mt-5">
+    <h1 class="display-4">Bienvenido a la Biblioteca</h1>
+    <p class="lead">Sistema de gestión bibliotecaria para préstamos de libros.</p>
+    <hr class="my-4">
+    {% if user.is_authenticated %}
+        <p>¡Hola {{ user.username }}! Explora nuestra colección de libros.</p>
+        <a class="btn btn-primary btn-lg" href="{% url 'libros' %}" role="button">Ver Libros</a>
+    {% else %}
+        <h2 class="mt-4">Historia de la Biblioteca</h2>
+        <p>La Biblioteca de Lago Ranco tiene una historia rica que refleja la cultura y evolución de la región. Poblada durante siglos por el pueblo originario Huilliche, Lago Ranco preserva tradiciones ancestrales que siguen siendo parte vital de su identidad.</p>
+        <p>Inaugurada en la década de 1980, la Biblioteca Pública Municipal "Luis Parada Jara" fue nombrada en honor al primer alcalde de la comuna. Hoy ofrece servicios como un Club de Lectura, exposiciones, y cursos gratuitos de computación, además de una amplia colección de literatura y un rincón infantil.</p>
+    {% endif %}
+</div>
+
+<!-- Card para Contacto y Horario -->
+<div class="row mt-4">
+    <div class="col-md-8 offset-md-2">
+        <div class="card">
+            <div class="card-body">
+                <h3 class="card-title">Contacto y Horario de Atención</h3>
+                <div class="row">
+                    <div class="col-md-6">
+                        <h4>Contacto</h4>
+                        <p>
+                            <strong>Dirección:</strong> Avenida Valparaíso 401<br>
+                            Lago Ranco, Ranco, Los Ríos<br>
+                            <strong>Teléfono:</strong> 63-2491212 anexo 30<br>
+                            <strong>Email:</strong> b208bc1@abretumundo.cl
+                        </p>
+                    </div>
+                    <div class="col-md-6">
+                        <h4>Horario</h4>
+                        <p>
+                            Lunes a Jueves: 9:00 - 18:00<br>
+                            Viernes: 10:00 - 17:00<br>
+                            Sábados y Domingos: Cerrado
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

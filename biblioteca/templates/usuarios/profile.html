@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+
+{% block title %}Perfil{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-8">
+        <div class="card">
+            <div class="card-header">
+                <h2 class="mb-0">Perfil de Usuario</h2>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-sm-6">
+                        <p><strong>Nombre de usuario:</strong> {{ user.username }}</p>
+                        <p><strong>RUT:</strong> {{ user.RUT }}</p>
+                        <p><strong>Email:</strong> {{ user.email }}</p>
+                    </div>
+                    <div class="col-sm-6">
+                        <p><strong>Dirección:</strong> {{ user.direccion }}</p>
+                        <p><strong>Teléfono:</strong> {{ user.telefono }}</p>
+                        <p><strong>Fecha de nacimiento:</strong> {{ user.fecha_nacimiento }}</p>
+                    </div>
+                </div>
+                <a href="{% url 'editar_perfil' %}" class="btn btn-primary">Editar Perfil</a>
+            </div>
+        </div>
+    </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

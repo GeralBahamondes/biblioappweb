@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+
+{% block title %}Catálogo de Libros{% endblock %}
+
+{% block content %}
+<h2 class="mb-4">Catálogo de Libros</h2>
+<div class="row">
+    {% for libro in libros %}
+    <div class="col-md-4 mb-4">
+        <div class="card h-100">
+            {% if libro.imagen %}
+            <img src="{{ libro.imagen.url }}" class="card-img-top" alt="{{ libro.titulo }}">
+            {% else %}
+            <img src="https://via.placeholder.com/150" class="card-img-top" alt="Placeholder">
+            {% endif %}
+            <div class="card-body">
+                <h5 class="card-title">{{ libro.titulo }}</h5>
+                <p class="card-text">
+                    <strong>Autor:</strong> {{ libro.autor }}<br>
+                    <strong>Género:</strong> {{ libro.genero }}<br>
+                    <strong>Disponibles:</strong> {{ libro.cantidad }}
+                </p>
+                {% if libro.restriccion_edad > 0 %}
+                <p class="card-text text-info">
+                    <small>Restricción de edad: +{{ libro.restriccion_edad }} años</small>
+                </p>
+                {% endif %}
+                {% if libro.prestado %}
+                <p class="text-warning">Ya tienes este libro prestado</p>
+                {% elif libro.cantidad > 0 %}
+                <a href="{% url 'realizar_prestamo' libro.id %}" class="btn btn-primary">Pedir prestado</a>
+                {% else %}
+                <p class="text-danger">No hay copias disponibles</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    {% empty %}
+    <div class="col-12">
+        <p class="text-center">No hay libros disponibles en este momento.</p>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}
