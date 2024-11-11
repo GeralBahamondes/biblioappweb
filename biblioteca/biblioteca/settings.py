@@ -57,9 +57,9 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'biblioteca_db',
-        'USER': 'root',
-        'PASSWORD': '',
-        'HOST': 'localhost',
+        'USER': 'admin',
+        'PASSWORD': 'Adminsegura123',
+        'HOST': 'bibliotecadb.cluokw4c0kqn.us-east-2.rds.amazonaws.com',
         'PORT': '3306',
     }
 }
