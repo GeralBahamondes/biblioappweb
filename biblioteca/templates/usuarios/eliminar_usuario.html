@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+
+{% block title %}Eliminar Usuario{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header">
+                <h2 class="mb-0">Eliminar Usuario: {{ usuario.username }}</h2>
+            </div>
+            <div class="card-body">
+                {% if not usuario.es_bibliotecario %}
+                <p class="text-danger">¿Estás seguro de que quieres eliminar la cuenta de {{ usuario.username }}? Esta acción no se puede deshacer.</p>
+                <form method="post">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-danger">Sí, eliminar esta cuenta</button>
+                    <a href="{% url 'gestion_usuarios' %}" class="btn btn-secondary">Cancelar</a>
+                </form>
+                {% else %}
+                <p class="text-warning">No se puede eliminar la cuenta de un bibliotecario.</p>
+                <a href="{% url 'gestion_usuarios' %}" class="btn btn-secondary">Volver</a>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

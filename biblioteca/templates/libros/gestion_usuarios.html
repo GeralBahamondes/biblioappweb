@@ -35,6 +35,10 @@
                 </td>
                 <td>
                     <a href="{% url 'editar_usuario' usuario.id %}" class="btn btn-sm btn-primary">Editar</a>
+                        <a href="{% url 'historial_usuario' usuario.id %}" class="btn btn-sm btn-info">Ver Historial</a>
+                    {% if not usuario.es_bibliotecario %}
+                    <a href="{% url 'eliminar_usuario' usuario.id %}" class="btn btn-sm btn-danger">Eliminar</a>
+                    {% endif %}
                 </td>
             </tr>
             {% empty %}

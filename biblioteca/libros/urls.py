@@ -11,4 +11,6 @@ urlpatterns = [
     path('gestion-libros/editar/<int:libro_id>/', views.editar_libro, name='editar_libro'),
     path('gestion-libros/eliminar/<int:libro_id>/', views.eliminar_libro, name='eliminar_libro'),
     path('gestion-usuarios/', views.gestion_usuarios, name='gestion_usuarios'),
+    path('historial_usuario/<int:usuario_id>/', views.historial_usuario, name='historial_usuario'),
+
 ]

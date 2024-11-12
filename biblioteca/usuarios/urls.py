@@ -10,4 +10,8 @@ urlpatterns = [
     path('perfil/editar/', views.editar_perfil, name='editar_perfil'),
     path('historial/', views.historial_prestamos, name='historial'),
     path('editar/<int:user_id>/', views.editar_usuario, name='editar_usuario'),
+    path('eliminar-cuenta/', views.eliminar_cuenta, name='eliminar_cuenta'),
+    path('eliminar-usuario/<int:user_id>/', views.eliminar_usuario, name='eliminar_usuario'),
+
+
 ]

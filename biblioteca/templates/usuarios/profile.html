@@ -23,9 +23,27 @@
                     </div>
                 </div>
                 <a href="{% url 'editar_perfil' %}" class="btn btn-primary">Editar Perfil</a>
+                <a href="{% url 'eliminar_cuenta' %}" class="btn btn-danger">Eliminar Cuenta</a>
             </div>
         </div>
-    </div>
+        
+        <div class="card mt-4">
+            <div class="card-header">
+                <h2 class="mb-0">Préstamos Activos</h2>
+            </div>
+            <div class="card-body">
+                {% if prestamos_activos %}
+                    <ul class="list-group">
+                        {% for prestamo in prestamos_activos %}
+                            <li class="list-group-item">
+                                <strong>{{ prestamo.libro.titulo }}</strong> - Fecha de préstamo: {{ prestamo.fecha_prestamo }}
+                            </li>
+                        {% endfor %}
+                    </ul>
+                {% else %}
+                    <p>No tienes préstamos activos.</p>
+                {% endif %}
+            </div>
         </div>
     </div>
 </div>

@@ -72,3 +72,37 @@ def editar_usuario(request, user_id):
     else:
         form = UsuarioChangeForm(instance=usuario)
     return render(request, 'usuarios/editar_usuario.html', {'form': form, 'usuario': usuario})
+
+@login_required
+def eliminar_cuenta(request):
+    if request.method == 'POST':
+        user = request.user
+        user.delete()
+        messages.success(request, "Tu cuenta ha sido eliminada exitosamente.")
+        return redirect('index')
+    return render(request, 'usuarios/eliminar_cuenta.html')
+
+@login_required
+@user_passes_test(lambda u: u.es_bibliotecario)
+def eliminar_usuario(request, user_id):
+    usuario = get_object_or_404(Usuario, id=user_id)
+    if request.method == 'POST':
+        if not usuario.es_bibliotecario:
+            usuario.delete()
+            messages.success(request, f"La cuenta de {usuario.username} ha sido eliminada exitosamente.")
+            return redirect('gestion_usuarios')
+        else:
+            messages.error(request, "No se puede eliminar la cuenta de un bibliotecario.")
+    return render(request, 'usuarios/eliminar_usuario.html', {'usuario': usuario})
+
+@login_required
+@user_passes_test(lambda u: u.es_bibliotecario)
+def historial_usuario(request, usuario_id):
+    usuario = get_object_or_404(Usuario, id=usuario_id)
+    prestamos = Prestamo.objects.filter(usuario=usuario).order_by('-fecha_prestamo')
+    return render(request, 'libros/historial_usuario.html', {'usuario': usuario, 'prestamos': prestamos})
+
+@login_required
+def prestamos_activos(request):
+    prestamos_activos = Prestamo.objects.filter(usuario=request.user, fecha_devolucion__isnull=True)
+    return render(request, 'usuarios/prestamos_activos.html', {'prestamos_activos': prestamos_activos})

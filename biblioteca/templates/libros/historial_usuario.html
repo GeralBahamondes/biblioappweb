@@ -1,9 +1,10 @@
 {% extends 'base.html' %}
 
-{% block title %}Historial de Préstamos{% endblock %}
+{% block title %}Historial de {{ usuario.username }}{% endblock %}
 
 {% block content %}
-<h2 class="mb-4">Mi Historial de Préstamos</h2>
+<h2 class="mb-4">Historial de Préstamos de {{ usuario.username }}</h2>
+
 <div class="table-responsive">
     <table class="table table-striped">
         <thead>
@@ -12,6 +13,7 @@
                 <th>Fecha de Préstamo</th>
                 <th>Fecha de Devolución</th>
                 <th>Estado</th>
+                <th>Acciones</th>
             </tr>
         </thead>
         <tbody>
@@ -27,15 +29,11 @@
                     <span class="badge badge-warning">Prestado</span>
                     {% endif %}
                 </td>
-                <td>
-                    {% if usuario.es_bibliotecario %}
-                    <a href="{% url 'devolver_libro' prestamo.id %}" class="btn btn-sm btn-primary">Devolver</a>
-                    {% endif %}
-                </td>
+                <td><a href="{% url 'devolver_libro' prestamo.id %}" class="btn btn-sm btn-primary">Entregado</a></td>
             </tr>
             {% empty %}
             <tr>
-                <td colspan="5" class="text-center">No tienes préstamos registrados.</td>
+                <td colspan="4" class="text-center">Este usuario no tiene historial de préstamos.</td>
             </tr>
             {% endfor %}
         </tbody>
