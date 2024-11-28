@@ -3,56 +3,85 @@
 {% block title %}Gestión de Libros{% endblock %}
 
 {% block content %}
-<div class="d-flex justify-content-between align-items-center mb-4">
-    <h2>Gestión de Libros</h2>
-    <a href="{% url 'agregar_libro' %}" class="btn btn-primary">Agregar Libro</a>
+<div class="container mt-5">
+    <div class="card shadow">
+        <div class="card-body">
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <h2 class="card-title">Gestión de Libros</h2>
+                <a href="{% url 'agregar_libro' %}" class="btn btn-primary">
+                    <i class="fas fa-plus-circle me-2"></i>Agregar Libro
+                </a>
+            </div>
+
+            <div class="table-responsive">
+                <table class="table table-hover">
+                    <thead class="table-light">
+                        <tr>
+                            <th>Título</th>
+                            <th>Autor</th>
+                            <th>Género</th>
+                            <th>Cantidad</th>
+                            <th>Disponible</th>
+                            <th>Restricción Edad</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for libro in libros %}
+                        <tr>
+                            <td>{{ libro.titulo }}</td>
+                            <td>{{ libro.autor }}</td>
+                            <td>{{ libro.genero }}</td>
+                            <td>{{ libro.cantidad }}</td>
+                            <td>
+                                {% if libro.disponible %}
+                                <span class="badge bg-success">Sí</span>
+                                {% else %}
+                                <span class="badge bg-danger">No</span>
+                                {% endif %}
+                            </td>
+                            <td>
+                                {% if libro.restriccion_edad > 0 %}
+                                <span class="badge bg-warning text-dark">+{{ libro.restriccion_edad }} años</span>
+                                {% else %}
+                                <span class="badge bg-secondary">Sin restricción</span>
+                                {% endif %}
+                            </td>
+                            <td>
+                                <div class="btn-group" role="group">
+                                    <a href="{% url 'editar_libro' libro.id %}" class="btn btn-sm btn-outline-primary">
+                                        <i class="fas fa-edit me-1"></i>Editar
+                                    </a>
+                                    <a href="{% url 'eliminar_libro' libro.id %}" class="btn btn-sm btn-outline-danger">
+                                        <i class="fas fa-trash-alt me-1"></i>Eliminar
+                                    </a>
+                                </div>
+                            </td>
+                        </tr>
+                        {% empty %}
+                        <tr>
+                            <td colspan="7" class="text-center">No hay libros registrados.</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
 </div>
 
-<div class="table-responsive">
-    <table class="table table-striped">
-        <thead>
-            <tr>
-                <th>Título</th>
-                <th>Autor</th>
-                <th>Género</th>
-                <th>Cantidad</th>
-                <th>Disponible</th>
-                <th>Restricción Edad</th>
-                <th>Acciones</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for libro in libros %}
-            <tr>
-                <td>{{ libro.titulo }}</td>
-                <td>{{ libro.autor }}</td>
-                <td>{{ libro.genero }}</td>
-                <td>{{ libro.cantidad }}</td>
-                <td>
-                    {% if libro.disponible %}
-                    <span class="badge badge-success">Sí</span>
-                    {% else %}
-                    <span class="badge badge-danger">No</span>
-                    {% endif %}
-                </td>
-                <td>
-                    {% if libro.restriccion_edad > 0 %}
-                    +{{ libro.restriccion_edad }} años
-                    {% else %}
-                    Sin restricción
-                    {% endif %}
-                </td>
-                <td>
-                    <a href="{% url 'editar_libro' libro.id %}" class="btn btn-sm btn-primary">Editar</a>
-                    <a href="{% url 'eliminar_libro' libro.id %}" class="btn btn-sm btn-danger">Eliminar</a>
-                </td>
-            </tr>
-            {% empty %}
-            <tr>
-                <td colspan="7" class="text-center">No hay libros registrados.</td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
-</div>
+<style>
+    .table th, .table td {
+        vertical-align: middle;
+    }
+    .btn-group .btn {
+        margin-right: 5px;
+    }
+    .btn-group .btn:last-child {
+        margin-right: 0;
+    }
+    .badge {
+        font-size: 0.9em;
+    }
+</style>
 {% endblock %}

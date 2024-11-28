@@ -3,50 +3,99 @@
 {% block title %}Gestión de Usuarios{% endblock %}
 
 {% block content %}
-<h2 class="mb-4">Gestión de Usuarios</h2>
+<div class="container-fluid mt-5">
+    <div class="card shadow">
+        <div class="card-body">
+            <h2 class="card-title mb-4">Gestión de Usuarios</h2>
 
-<div class="table-responsive">
-    <table class="table table-striped">
-        <thead>
-            <tr>
-                <th>Username</th>
-                <th>RUT</th>
-                <th>Email</th>
-                <th>Dirección</th>
-                <th>Teléfono</th>
-                <th>Rol</th>
-                <th>Acciones</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for usuario in usuarios %}
-            <tr>
-                <td>{{ usuario.username }}</td>
-                <td>{{ usuario.RUT }}</td>
-                <td>{{ usuario.email }}</td>
-                <td>{{ usuario.direccion }}</td>
-                <td>{{ usuario.telefono }}</td>
-                <td>
-                    {% if usuario.es_bibliotecario %}
-                    <span class="badge badge-primary">Bibliotecario</span>
-                    {% else %}
-                    <span class="badge badge-secondary">Usuario</span>
-                    {% endif %}
-                </td>
-                <td>
-                    <a href="{% url 'editar_usuario' usuario.id %}" class="btn btn-sm btn-primary">Editar</a>
-                        <a href="{% url 'historial_usuario' usuario.id %}" class="btn btn-sm btn-info">Ver Historial</a>
-                    {% if not usuario.es_bibliotecario %}
-                    <a href="{% url 'eliminar_usuario' usuario.id %}" class="btn btn-sm btn-danger">Eliminar</a>
-                    {% endif %}
-                </td>
-            </tr>
-            {% empty %}
-            <tr>
-                <td colspan="7" class="text-center">No hay usuarios registrados.</td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
+            <div class="table-responsive">
+                <table class="table table-hover">
+                    <thead class="table-light">
+                        <tr>
+                            <th>Nombre de Usuario</th>
+                            <th>RUT</th>
+                            <th>Email</th>
+                            <th>Dirección</th>
+                            <th>Teléfono</th>
+                            <th>Rol</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for usuario in usuarios %}
+                        <tr>
+                            <td>{{ usuario.username }}</td>
+                            <td>{{ usuario.RUT }}</td>
+                            <td>{{ usuario.email }}</td>
+                            <td>{{ usuario.direccion }}</td>
+                            <td>{{ usuario.telefono }}</td>
+                            <td>
+                                {% if usuario.es_bibliotecario %}
+                                <span class="badge bg-primary">Bibliotecario</span>
+                                {% else %}
+                                <span class="badge bg-secondary">Usuario</span>
+                                {% endif %}
+                            </td>
+                            <td>
+                                <div class="d-flex flex-column gap-1">
+                                    <a href="{% url 'editar_usuario' usuario.id %}" class="btn btn-sm btn-outline-primary">
+                                        <i class="fas fa-edit"></i> Editar
+                                    </a>
+                                    <a href="{% url 'historial_usuario' usuario.id %}" class="btn btn-sm btn-outline-info">
+                                        <i class="fas fa-history"></i> Historial
+                                    </a>
+                                    {% if not usuario.es_bibliotecario %}
+                                    <a href="{% url 'eliminar_usuario' usuario.id %}" class="btn btn-sm btn-outline-danger">
+                                        <i class="fas fa-trash-alt"></i> Eliminar
+                                    </a>
+                                    {% endif %}
+                                </div>
+                            </td>
+                        </tr>
+                        {% empty %}
+                        <tr>
+                            <td colspan="7" class="text-center">No hay usuarios registrados.</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
 </div>
+
+<style>
+    .table {
+        font-size: 0.9rem;
+    }
+    .table th, .table td {
+        padding: 0.5rem;
+        vertical-align: middle;
+    }
+    .table td {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        max-width: 200px;
+    }
+    .btn-sm {
+        padding: 0.25rem 0.5rem;
+        font-size: 0.75rem;
+    }
+    .badge {
+        font-size: 0.8em;
+    }
+    .actions-column {
+        width: 120px;
+    }
+    @media (max-width: 1200px) {
+        .table {
+            font-size: 0.8rem;
+        }
+        .btn-sm {
+            padding: 0.2rem 0.4rem;
+            font-size: 0.7rem;
+        }
+    }
+</style>
 {% endblock %}

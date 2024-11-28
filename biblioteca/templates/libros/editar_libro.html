@@ -3,28 +3,30 @@
 {% block title %}Editar Libro{% endblock %}
 
 {% block content %}
-<div class="row justify-content-center">
-    <div class="col-md-8">
-        <div class="card">
-            <div class="card-header">
-                <h2 class="mb-0">Editar Libro: {{ libro.titulo }}</h2>
+<div style="display: flex; justify-content: center; padding: 20px; background-color: #ffffff; min-height: 100vh;">
+    <div style="width: 100%; max-width: 800px;">
+        <div style="background-color: #fff; border-radius: 8px; box-shadow: 0 4px 6px rgba(139, 69, 19, 0.1); border: 1px solid #8b4513;">
+            <div style="background-color: #8b4513; padding: 20px; border-top-left-radius: 8px; border-top-right-radius: 8px;">
+                <h2 style="margin: 0; color: #ffffff; font-size: 28px; font-weight: bold; font-family: 'Bookman Old Style', serif;">Editar Libro: {{ libro.titulo }}</h2>
             </div>
-            <div class="card-body">
+            <div style="padding: 20px; background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAQAAAAECAYAAACp8Z5+AAAAEklEQVQImWNgYGD4z0AswK4SAFXuAf8EPy+xAAAAAElFTkSuQmCC');">
                 <form method="post" enctype="multipart/form-data">
                     {% csrf_token %}
                     {% for field in form %}
-                    <div class="form-group">
-                        <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+                    <div style="margin-bottom: 20px; background-color: rgba(255, 255, 255, 0.9); padding: 15px; border-radius: 5px; border: 1px solid #d2b48c;">
+                        <label for="{{ field.id_for_label }}" style="display: block; margin-bottom: 5px; font-weight: bold; color: #8b4513; font-family: 'Bookman Old Style', serif;">{{ field.label }}</label>
                         {{ field.errors }}
-                        {{ field }}
+                        <div style="margin-top: 5px;">
+                            {{ field }}
+                        </div>
                         {% if field.help_text %}
-                        <small class="form-text text-muted">{{ field.help_text }}</small>
+                        <small style="display: block; margin-top: 5px; color: #6b4226; font-size: 0.875em; font-style: italic;">{{ field.help_text }}</small>
                         {% endif %}
                     </div>
                     {% endfor %}
-                    <div class="form-group">
-                        <button type="submit" class="btn btn-primary">Guardar Cambios</button>
-                        <a href="{% url 'gestion_libros' %}" class="btn btn-secondary">Cancelar</a>
+                    <div style="display: flex; justify-content: space-between; margin-top: 30px;">
+                        <button type="submit" style="background-color: #8b4513; color: #f0e6d2; border: none; padding: 12px 24px; border-radius: 4px; cursor: pointer; font-size: 16px; transition: background-color 0.3s ease; font-family: 'Bookman Old Style', serif;">Guardar Cambios</button>
+                        <a href="{% url 'gestion_libros' %}" style="background-color: #d2b48c; color: #8b4513; text-decoration: none; padding: 12px 24px; border-radius: 4px; font-size: 16px; transition: background-color 0.3s ease; font-family: 'Bookman Old Style', serif;">Cancelar</a>
                     </div>
                 </form>
             </div>

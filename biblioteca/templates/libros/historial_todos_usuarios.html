@@ -1,0 +1,113 @@
+{% extends 'base.html' %}
+
+{% block title %}Historial de Todos los Usuarios{% endblock %}
+
+{% block content %}
+<div class="container-fluid mt-5">
+    <div class="card shadow">
+        <div class="card-body">
+            <h1 class="card-title mb-4">Historial de Devoluciones</h1>
+
+            <div class="table-responsive">
+                <table class="table table-hover">
+                    <thead class="table-light">
+                        <tr>
+                            <th>Usuario</th>
+                            <th>Libro</th>
+                            <th>Fecha de Préstamo</th>
+                            <th>Fecha de Devolución</th>
+                            <th>Estado</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for prestamo in prestamos %}
+                        <tr>
+                            <td>{{ prestamo.usuario.username }}</td>
+                            <td>{{ prestamo.libro.titulo }}</td>
+                            <td>{{ prestamo.fecha_prestamo|date:"d/m/Y" }}</td>
+                            <td>
+                                {% if prestamo.fecha_devolucion %}
+                                    {{ prestamo.fecha_devolucion|date:"d/m/Y" }}
+                                {% else %}
+                                    No devuelto
+                                {% endif %}
+                            </td>
+                            <td>
+                                {% if prestamo.fecha_devolucion %}
+                                    <span class="badge bg-success">Devuelto</span>
+                                {% else %}
+                                    <span class="badge bg-warning text-dark">Prestado</span>
+                                {% endif %}
+                            </td>
+                            <td>
+                                {% if not prestamo.fecha_devolucion %}
+                                    <form method="post" action="{% url 'devolver_libro_admin' prestamo.id %}">
+                                        {% csrf_token %}
+                                        <button type="submit" class="btn btn-sm btn-primary">
+                                            <i class="fas fa-undo-alt"></i> Marcar como Devuelto
+                                        </button>
+                                    </form>
+                                {% else %}
+                                    <span class="text-muted">Ya devuelto</span>
+                                {% endif %}
+                            </td>
+                        </tr>
+                        {% empty %}
+                        <tr>
+                            <td colspan="6" class="text-center">No hay préstamos registrados.</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+
+            {% if is_paginated %}
+            <nav aria-label="Paginación de préstamos">
+                <ul class="pagination justify-content-center">
+                    {% if page_obj.has_previous %}
+                    <li class="page-item">
+                        <a class="page-link" href="?page={{ page_obj.previous_page_number }}" aria-label="Anterior">
+                            <span aria-hidden="true">&laquo;</span>
+                        </a>
+                    </li>
+                    {% endif %}
+
+                    {% for num in page_obj.paginator.page_range %}
+                    {% if page_obj.number == num %}
+                    <li class="page-item active" aria-current="page">
+                        <span class="page-link">{{ num }}</span>
+                    </li>
+                    {% else %}
+                    <li class="page-item"><a class="page-link" href="?page={{ num }}">{{ num }}</a></li>
+                    {% endif %}
+                    {% endfor %}
+
+                    {% if page_obj.has_next %}
+                    <li class="page-item">
+                        <a class="page-link" href="?page={{ page_obj.next_page_number }}" aria-label="Siguiente">
+                            <span aria-hidden="true">&raquo;</span>
+                        </a>
+                    </li>
+                    {% endif %}
+                </ul>
+            </nav>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+<style>
+    .table {
+        font-size: 0.9rem;
+    }
+    .table th, .table td {
+        padding: 0.5rem;
+        vertical-align: middle;
+    }
+    .btn-sm {
+        padding: 0.25rem 0.5rem;
+        font-size: 0.75rem;
+    }
+</style>
+{% endblock %}

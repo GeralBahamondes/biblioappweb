@@ -3,36 +3,54 @@
 {% block title %}Iniciar Sesión{% endblock %}
 
 {% block content %}
-<div class="row justify-content-center mt-5">
-    <div class="col-md-6">
-        <div class="card shadow-lg border-0">
-            <div class="card-header text-center navbar-custom text-white">
-                <h2 class="mb-0">Iniciar Sesión</h2>
-            </div>
-            <div class="card-body">
-                <form method="post">
-                    {% csrf_token %}
-                    {% for field in form %}
-                    <div class="form-group">
-                        {% if field.label == "Password" %}
-                            <label for="{{ field.id_for_label }}" class="font-weight-bold">Contraseña</label>
-                        {% else %}
-                            <label for="{{ field.id_for_label }}" class="font-weight-bold">{{ field.label }}</label>
-                        {% endif %}
-                        {{ field.errors }}
-                        {{ field }}
-                        {% if field.help_text %}
-                        <small class="form-text text-muted">{{ field.help_text }}</small>
-                        {% endif %}
-                    </div>
-                    {% endfor %}
-                    <button type="submit" class="btn navbar-custom btn-block text-white py-2">Iniciar Sesión</button>
-                    <div class="text-center mt-3">
-                        <a href="{% url 'registro' %}" class="btn btn-link text-muted">¿No tienes cuenta? Regístrate</a>
-                    </div>
-                </form>
-            </div>
+<div style="min-height: calc(100vh - 60px); display: flex; align-items: center; justify-content: center; background-color: #f0e6d2; margin: -20px;">
+    <div style="width: 100%; max-width: 400px;">
+        <div style="background-color: #8B4513; padding: 20px; border-top-left-radius: 8px; border-top-right-radius: 8px;">
+            <h2 style="color: white; margin: 0; text-align: center; font-size: 1.5rem; font-family: 'Playfair Display', serif;">Iniciar Sesión</h2>
+        </div>
+        <div style="padding: 30px;">
+            <form method="post">
+                {% csrf_token %}
+                <div style="margin-bottom: 20px;">
+                    <label for="id_RUT" style="display: block; margin-bottom: 8px; color: #5D3A1A; font-weight: 600;">RUT</label>
+                    <input type="text" name="RUT" id="id_RUT" required style="width: 100%; padding: 10px; border: 1px solid #8B4513; border-radius: 4px; box-sizing: border-box; background-color: #fff;">
+                </div>
+                <div style="margin-bottom: 20px;">
+                    <label for="id_password" style="display: block; margin-bottom: 8px; color: #5D3A1A; font-weight: 600;">Contraseña</label>
+                    <input type="password" name="password" id="id_password" required style="width: 100%; padding: 10px; border: 1px solid #8B4513; border-radius: 4px; box-sizing: border-box; background-color: #fff;">
+                </div>
+                <button type="submit" style="width: 100%; padding: 12px; background-color: #8B4513; color: white; border: none; border-radius: 4px; cursor: pointer; font-size: 1rem; font-weight: bold;">Iniciar Sesión</button>
+                <div style="text-align: center; margin-top: 20px;">
+                    <a href="{% url 'registro' %}" style="color: #8B4513; text-decoration: none; font-size: 0.9rem; font-weight: 600;">¿No tienes cuenta? Regístrate</a>
+                </div>
+            </form>
         </div>
     </div>
 </div>
+
+<style>
+    body {
+        background-color: #f0e6d2;
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+    }
+    input:focus {
+        outline: none;
+        border-color: #A0522D !important;
+        box-shadow: 0 0 0 2px rgba(139, 69, 19, 0.1);
+    }
+    button:hover {
+        background-color: #A0522D !important;
+    }
+    @media (max-width: 480px) {
+        div[style*="max-width: 400px"] {
+            max-width: 100% !important;
+        }
+    }
+    .starter-template {
+        padding: 0 !important;
+        background-color: transparent !important;
+    }
+</style>
 {% endblock %}

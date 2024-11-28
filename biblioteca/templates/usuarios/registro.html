@@ -1,34 +1,62 @@
 {% extends 'base.html' %}
 
-{% block title %}Iniciar Sesión{% endblock %}
+{% block title %}Registro{% endblock %}
 
 {% block content %}
-<div class="d-flex justify-content-center align-items-center vh-100" style="background-color: #ffffff;">
-    <div class="card p-5 shadow-sm" style="max-width: 400px; width: 100%; border-radius: 10px;">
-        <h3 class="text-center text-primary mb-4">Registro</h3>
-        <form method="post">
-            {% csrf_token %}
-            {% for field in form %}
-                <div class="mb-3">
-                    <!-- Input estilizado con Bootstrap -->
-                    <input type="{{ field.field.widget.input_type }}" 
-                           name="{{ field.html_name }}" 
-                           id="{{ field.id_for_label }}" 
-                           placeholder="{{ field.label }}"
-                           class="form-control"
-                           style="padding: 12px; border-radius: 5px;">
-                    {% if field.errors %}
-                        <small class="text-danger">{{ field.errors.0 }}</small>
-                    {% endif %}
-                </div>
-            {% endfor %}
+<div style="display: flex; justify-content: center; align-items: center; min-height: calc(100vh - 60px); background-color: #f0e6d2; margin: -20px;">
+    <div style="max-width: 400px; width: 100%; background-color: #f0e6d2; border-radius: 8px; box-shadow: 0 2px 4px rgba(139, 69, 19, 0.1);">
+        <div style="background-color: #8B4513; padding: 20px; border-top-left-radius: 8px; border-top-right-radius: 8px;">
+            <h2 style="color: white; margin: 0; text-align: center; font-size: 1.5rem; font-family: 'Playfair Display', serif;">Registro</h2>
+        </div>
+        <div style="padding: 30px;">
+            <form method="post">
+                {% csrf_token %}
+                {% for field in form %}
+                    <div style="margin-bottom: 20px;">
+                        <input type="{{ field.field.widget.input_type }}" 
+                               name="{{ field.html_name }}" 
+                               id="{{ field.id_for_label }}" 
+                               placeholder="{{ field.label }}"
+                               style="width: 100%; padding: 12px; border: 1px solid #8B4513; border-radius: 4px; box-sizing: border-box; background-color: #fff;">
+                        {% if field.errors %}
+                            <small style="color: #dc3545; display: block; margin-top: 5px;">{{ field.errors.0 }}</small>
+                        {% endif %}
+                    </div>
+                {% endfor %}
 
-            <button type="submit" class="btn btn-primary w-100 py-2" style="border-radius: 5px;">Iniciar Sesión</button>
-        </form>
-        
-        <div class="text-center mt-3">
-            <a href="{% url 'registro' %}" class="text-decoration-none text-primary">¿No tienes cuenta? Regístrate</a>
+                <button type="submit" style="width: 100%; padding: 12px; background-color: #8B4513; color: white; border: none; border-radius: 4px; cursor: pointer; font-size: 1rem; font-weight: bold;">Registrarse</button>
+            </form>
+            
+            <div style="text-align: center; margin-top: 20px;">
+                <a href="{% url 'login' %}" style="color: #8B4513; text-decoration: none; font-size: 0.9rem; font-weight: 600;">¿Ya tienes cuenta? Inicia sesión</a>
+            </div>
         </div>
     </div>
 </div>
+
+<style>
+    body {
+        background-color: #f0e6d2;
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+    }
+    input:focus {
+        outline: none;
+        border-color: #A0522D !important;
+        box-shadow: 0 0 0 2px rgba(139, 69, 19, 0.1);
+    }
+    button:hover {
+        background-color: #A0522D !important;
+    }
+    @media (max-width: 480px) {
+        div[style*="max-width: 400px"] {
+            max-width: 100% !important;
+        }
+    }
+    .starter-template {
+        padding: 0 !important;
+        background-color: transparent !important;
+    }
+</style>
 {% endblock %}

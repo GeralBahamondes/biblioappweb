@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="es" class="h-100">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,15 +9,39 @@
     {% bootstrap_javascript jquery='full' %}
 
     <style>
-        body {
-            padding-top: 5rem;
-        }
-        .starter-template {
-            padding: 3rem 1.5rem;
-        }
-        .card {
+        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Source+Sans+Pro:wght@400;600&display=swap');
+
+        html, body {
             height: 100%;
         }
+
+        body {
+            padding-top: 5rem;
+            font-family: 'Source Sans Pro', sans-serif;
+            background-color: #f0e6d2;
+            color: #3a3a3a;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .starter-template {
+            padding: 3rem 1.5rem;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .card {
+            height: 100%;
+            border: none;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+        }
+
         .card-img-top {
             height: 200px;
             object-fit: cover;
@@ -25,26 +49,30 @@
         
         /* Custom Navbar Style */
         .navbar-custom {
-            background: linear-gradient(135deg, #8B4513, #A0522D); /* Gradient background for depth */
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); /* Shadow for depth */
+            background: linear-gradient(135deg, #8B4513, #A0522D);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
         }
+
         .navbar-custom .navbar-brand,
         .navbar-custom .nav-link {
-            color: #FFFFFF !important; /* White text for readability */
-            font-weight: bold; /* Bold text */
-            text-transform: uppercase; /* Uppercase text for a modern feel */
+            color: #FFFFFF !important;
+            font-weight: bold;
+            text-transform: uppercase;
+            font-family: 'Playfair Display', serif;
         }
+
         .navbar-custom .nav-link {
-            transition: color 0.3s ease, background-color 0.3s ease; /* Smooth transition */
+            transition: color 0.3s ease, background-color 0.3s ease;
         }
+
         .navbar-custom .nav-link:hover {
-            color: #FFD700 !important; /* Gold color for hover */
-            background-color: rgba(0, 0, 0, 0.1); /* Subtle background color on hover */
+            color: #FFD700 !important;
+            background-color: rgba(0, 0, 0, 0.1);
         }
 
         /* Responsive navbar adjustments */
         .navbar-toggler-icon {
-            background-color: #FFFFFF; /* White toggler icon */
+            background-color: #FFFFFF;
         }
 
         /* Additional styling for active link */
@@ -52,9 +80,57 @@
             color: #FFD700 !important;
             font-weight: bold;
         }
+
+        /* Custom styles for library theme */
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Playfair Display', serif;
+            color: #8B4513;
+        }
+
+        .btn-primary {
+            background-color: #8B4513;
+            border-color: #8B4513;
+        }
+
+        .btn-primary:hover {
+            background-color: #A0522D;
+            border-color: #A0522D;
+        }
+
+        .alert {
+            border-radius: 0;
+            border-left-width: 5px;
+        }
+
+        .alert-success {
+            border-left-color: #28a745;
+        }
+
+        .alert-danger {
+            border-left-color: #dc3545;
+        }
+
+        .alert-warning {
+            border-left-color: #ffc107;
+        }
+
+        .alert-info {
+            border-left-color: #17a2b8;
+        }
+
+        /* Styles for sticky footer */
+        main {
+            flex: 1 0 auto;
+        }
+
+        .footer {
+            flex-shrink: 0;
+            background-color: #8B4513;
+            color: #FFFFFF;
+        }
     </style>
 </head>
-<body>
+<body class="d-flex flex-column h-100">
     <nav class="navbar navbar-expand-md navbar-custom fixed-top">
         <a class="navbar-brand" href="{% url 'index' %}">Biblioteca</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault"
@@ -87,7 +163,12 @@
             <ul class="navbar-nav ml-auto">
                 {% if user.is_authenticated %}
                     <li class="nav-item">
-                        <a class="nav-link" href="{% url 'logout' %}">Cerrar sesión</a>
+                        <form method="POST" action="{% url 'logout' %}">
+                            {% csrf_token %}
+                            <button type="submit" class="nav-link btn btn-link" style="color: inherit; border: none; background: none;">
+                                Cerrar sesión
+                            </button>
+                        </form>
                     </li>
                 {% else %}
                     <li class="nav-item">
@@ -101,20 +182,28 @@
         </div>
     </nav>
 
-    <main role="main" class="container">
-        <div class="starter-template">
-            {% if messages %}
-                {% for message in messages %}
-                    <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
-                        {{ message }}
-                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                {% endfor %}
-            {% endif %}
-            {% block content %}{% endblock %}
+    <main role="main" class="flex-shrink-0">
+        <div class="container">
+            <div class="starter-template">
+                {% if messages %}
+                    {% for message in messages %}
+                        <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+                            {{ message }}
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                    {% endfor %}
+                {% endif %}
+                {% block content %}{% endblock %}
+            </div>
         </div>
     </main>
+
+    <footer class="footer mt-auto py-3">
+        <div class="container text-center">
+            <span>© 2024 Biblioteca. Todos los derechos reservados.</span>
+        </div>
+    </footer>
 </body>
 </html>

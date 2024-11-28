@@ -12,5 +12,7 @@ urlpatterns = [
     path('gestion-libros/eliminar/<int:libro_id>/', views.eliminar_libro, name='eliminar_libro'),
     path('gestion-usuarios/', views.gestion_usuarios, name='gestion_usuarios'),
     path('historial_usuario/<int:usuario_id>/', views.historial_usuario, name='historial_usuario'),
+    path('devolver-libro-admin/<int:prestamo_id>/', views.devolver_libro_admin, name='devolver_libro_admin'),
+    path('historial-todos-usuarios/', views.historial_todos_usuarios, name='historial_todos_usuarios'),
 
 ]

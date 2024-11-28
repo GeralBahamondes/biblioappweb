@@ -3,47 +3,47 @@
 {% block title %}Perfil{% endblock %}
 
 {% block content %}
-<div class="row">
-    <div class="col-md-8">
-        <div class="card">
-            <div class="card-header">
-                <h2 class="mb-0">Perfil de Usuario</h2>
-            </div>
-            <div class="card-body">
-                <div class="row">
-                    <div class="col-sm-6">
-                        <p><strong>Nombre de usuario:</strong> {{ user.username }}</p>
-                        <p><strong>RUT:</strong> {{ user.RUT }}</p>
-                        <p><strong>Email:</strong> {{ user.email }}</p>
-                    </div>
-                    <div class="col-sm-6">
-                        <p><strong>Dirección:</strong> {{ user.direccion }}</p>
-                        <p><strong>Teléfono:</strong> {{ user.telefono }}</p>
-                        <p><strong>Fecha de nacimiento:</strong> {{ user.fecha_nacimiento }}</p>
-                    </div>
+<div style="max-width: 800px; margin: 0 auto; padding: 20px;">
+    <div style="background-color: #fff; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); margin-bottom: 20px;">
+        <div style="background-color: #8B4513; color: #fff; padding: 15px; border-top-left-radius: 8px; border-top-right-radius: 8px;">
+            <h2 style="margin: 0; font-family: 'Playfair Display', serif; color: #ffffff;">Perfil de Usuario</h2>
+        </div>
+        <div style="padding: 20px;">
+            <div style="display: flex; flex-wrap: wrap; margin: -10px;">
+                <div style="flex: 1 1 50%; padding: 10px;">
+                    <p><strong style="color: #8B4513;">Nombre de usuario:</strong> {{ user.username }}</p>
+                    <p><strong style="color: #8B4513;">RUT:</strong> {{ user.RUT }}</p>
+                    <p><strong style="color: #8B4513;">Email:</strong> {{ user.email }}</p>
                 </div>
-                <a href="{% url 'editar_perfil' %}" class="btn btn-primary">Editar Perfil</a>
-                <a href="{% url 'eliminar_cuenta' %}" class="btn btn-danger">Eliminar Cuenta</a>
+                <div style="flex: 1 1 50%; padding: 10px;">
+                    <p><strong style="color: #8B4513;">Dirección:</strong> {{ user.direccion }}</p>
+                    <p><strong style="color: #8B4513;">Teléfono:</strong> {{ user.telefono }}</p>
+                    <p><strong style="color: #8B4513;">Fecha de nacimiento:</strong> {{ user.fecha_nacimiento }}</p>
+                </div>
+            </div>
+            <div style="margin-top: 20px;">
+                <a href="{% url 'editar_perfil' %}" style="display: inline-block; background-color: #8B4513; color: #fff; padding: 10px 15px; text-decoration: none; border-radius: 4px; margin-right: 10px;">Editar Perfil</a>
+                <a href="{% url 'eliminar_cuenta' %}" style="display: inline-block; background-color: #dc3545; color: #fff; padding: 10px 15px; text-decoration: none; border-radius: 4px;">Eliminar Cuenta</a>
             </div>
         </div>
-        
-        <div class="card mt-4">
-            <div class="card-header">
-                <h2 class="mb-0">Préstamos Activos</h2>
-            </div>
-            <div class="card-body">
-                {% if prestamos_activos %}
-                    <ul class="list-group">
-                        {% for prestamo in prestamos_activos %}
-                            <li class="list-group-item">
-                                <strong>{{ prestamo.libro.titulo }}</strong> - Fecha de préstamo: {{ prestamo.fecha_prestamo }}
-                            </li>
-                        {% endfor %}
-                    </ul>
-                {% else %}
-                    <p>No tienes préstamos activos.</p>
-                {% endif %}
-            </div>
+    </div>
+    
+    <div style="background-color: #fff; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+        <div style="background-color: #8B4513; color: #fff; padding: 15px; border-top-left-radius: 8px; border-top-right-radius: 8px;">
+            <h2 style="margin: 0; font-family: 'Playfair Display', serif; color: #ffffff;">Préstamos Activos</h2>
+        </div>
+        <div style="padding: 20px;">
+            {% if prestamos_activos %}
+                <ul style="list-style-type: none; padding: 0; margin: 0;">
+                    {% for prestamo in prestamos_activos %}
+                        <li style="background-color: #f8f9fa; border: 1px solid #e9ecef; padding: 10px; margin-bottom: 10px; border-radius: 4px;">
+                            <strong style="color: #8B4513;">{{ prestamo.libro.titulo }}</strong> - Fecha de préstamo: {{ prestamo.fecha_prestamo }}
+                        </li>
+                    {% endfor %}
+                </ul>
+            {% else %}
+                <p style="color: #6c757d; font-style: italic;">No tienes préstamos activos.</p>
+            {% endif %}
         </div>
     </div>
 </div>
