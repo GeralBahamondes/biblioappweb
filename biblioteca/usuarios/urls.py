@@ -3,6 +3,7 @@ from . import views
 from django.contrib.auth.views import LogoutView
 from rest_framework_simplejwt.views import TokenRefreshView
 from . import views, api_views
+
 urlpatterns = [
     path('registro/', views.registro, name='registro'),
     path('login/', views.iniciar_sesion, name='login'),

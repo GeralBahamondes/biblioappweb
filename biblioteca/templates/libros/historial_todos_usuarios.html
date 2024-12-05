@@ -34,22 +34,31 @@
                                 {% endif %}
                             </td>
                             <td>
-                                {% if prestamo.fecha_devolucion %}
-                                    <span class="badge bg-success">Devuelto</span>
+                                {% if prestamo.estado == 'pendiente' %}
+                                <span class="badge bg-warning text-dark">Pendiente de entrega</span>
+                                {% elif prestamo.estado == 'entregado' %}
+                                <span class="badge bg-primary">Entregado</span>
                                 {% else %}
-                                    <span class="badge bg-warning text-dark">Prestado</span>
+                                <span class="badge bg-success">Devuelto</span>
                                 {% endif %}
                             </td>
                             <td>
-                                {% if not prestamo.fecha_devolucion %}
-                                    <form method="post" action="{% url 'devolver_libro_admin' prestamo.id %}">
-                                        {% csrf_token %}
-                                        <button type="submit" class="btn btn-sm btn-primary">
-                                            <i class="fas fa-undo-alt"></i> Marcar como Devuelto
-                                        </button>
-                                    </form>
+                                {% if prestamo.estado == 'pendiente' %}
+                                <form method="post" action="{% url 'entregar_libro' prestamo.id %}">
+                                    {% csrf_token %}
+                                    <button type="submit" class="btn btn-sm btn-primary">
+                                        <i class="fas fa-hand-holding-usd"></i> Entregar
+                                    </button>
+                                </form>
+                                {% elif prestamo.estado == 'entregado' %}
+                                <form method="post" action="{% url 'devolver_libro_admin' prestamo.id %}">
+                                    {% csrf_token %}
+                                    <button type="submit" class="btn btn-sm btn-success">
+                                        <i class="fas fa-undo-alt"></i> Devolver
+                                    </button>
+                                </form>
                                 {% else %}
-                                    <span class="text-muted">Ya devuelto</span>
+                                <span class="text-muted">No se requieren acciones</span>
                                 {% endif %}
                             </td>
                         </tr>

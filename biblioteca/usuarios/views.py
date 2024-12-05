@@ -5,6 +5,7 @@ from django.contrib.auth.decorators import login_required, user_passes_test
 from libros.models import Prestamo
 from django.contrib import messages
 from .models import Usuario
+from django.views.decorators.csrf import ensure_csrf_cookie
 
 def registro(request):
     if request.method == 'POST':
@@ -18,6 +19,7 @@ def registro(request):
         form = RegistroUsuarioForm()
     return render(request, 'usuarios/registro.html', {'form': form})
 
+@ensure_csrf_cookie
 def iniciar_sesion(request):
     if request.method == 'POST':
         form = LoginForm(request.POST)
@@ -33,7 +35,12 @@ def iniciar_sesion(request):
                 messages.error(request, 'RUT o contraseña incorrectos.')
     else:
         form = LoginForm()
-    return render(request, 'usuarios/login.html', {'form': form})
+    
+    response = render(request, 'usuarios/login.html', {
+        'form': form,
+    })
+    response.set_cookie('csrftoken', request.META.get('CSRF_COOKIE', ''), samesite='Lax')
+    return response
 
 @login_required
 def perfil(request):

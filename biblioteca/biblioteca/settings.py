@@ -9,7 +9,7 @@ SECRET_KEY = 'django-insecure-your-secret-key-here'
 
 DEBUG = True
 
-ALLOWED_HOSTS = ['18.119.129.29', 'localhost', '127.0.0.1']
+ALLOWED_HOSTS = ['18.224.56.138', 'localhost', '127.0.0.1']
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -32,7 +32,9 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
-
+CSRF_COOKIE_SECURE = False  # Cambia a True si usas HTTPS
+CSRF_COOKIE_HTTPONLY = False
+SESSION_COOKIE_SECURE = False  
 ROOT_URLCONF = 'biblioteca.urls'
 
 TEMPLATES = [

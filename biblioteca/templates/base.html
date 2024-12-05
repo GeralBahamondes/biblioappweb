@@ -162,6 +162,13 @@
             </ul>
             <ul class="navbar-nav ml-auto">
                 {% if user.is_authenticated %}
+                <form class="d-flex" action="{% url 'libros' %}" method="get">
+                    <input class="form-control me-2" type="search" placeholder="Buscar libros" aria-label="Buscar" name="q">
+                    <button class="btn btn-outline-light" type="submit">Buscar</button>
+                </form>
+            {% endif %}
+
+                {% if user.is_authenticated %}
                     <li class="nav-item">
                         <form method="POST" action="{% url 'logout' %}">
                             {% csrf_token %}

@@ -21,10 +21,12 @@
                 <td>{{ prestamo.fecha_prestamo }}</td>
                 <td>{{ prestamo.fecha_devolucion|default_if_none:"No devuelto" }}</td>
                 <td>
-                    {% if prestamo.fecha_devolucion %}
-                    <span class="badge badge-success">Devuelto</span>
+                    {% if prestamo.estado == 'pendiente' %}
+                    <span class="badge bg-warning text-dark">Pendiente de entrega</span>
+                    {% elif prestamo.estado == 'entregado' %}
+                    <span class="badge bg-primary">Entregado</span>
                     {% else %}
-                    <span class="badge badge-warning">Prestado</span>
+                    <span class="badge bg-success">Devuelto</span>
                     {% endif %}
                 </td>
                 <td>

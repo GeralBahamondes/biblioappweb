@@ -3,40 +3,73 @@
 {% block title %}Historial de {{ usuario.username }}{% endblock %}
 
 {% block content %}
-<h2 class="mb-4">Historial de Préstamos de {{ usuario.username }}</h2>
+<div class="container mt-5">
+    <h2 class="mb-4">Historial de Préstamos de {{ usuario.username }}</h2>
 
-<div class="table-responsive">
-    <table class="table table-striped">
-        <thead>
-            <tr>
-                <th>Libro</th>
-                <th>Fecha de Préstamo</th>
-                <th>Fecha de Devolución</th>
-                <th>Estado</th>
-                <th>Acciones</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for prestamo in prestamos %}
-            <tr>
-                <td>{{ prestamo.libro.titulo }}</td>
-                <td>{{ prestamo.fecha_prestamo }}</td>
-                <td>{{ prestamo.fecha_devolucion|default_if_none:"No devuelto" }}</td>
-                <td>
-                    {% if prestamo.fecha_devolucion %}
-                    <span class="badge badge-success">Devuelto</span>
-                    {% else %}
-                    <span class="badge badge-warning">Prestado</span>
+    <div class="table-responsive">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Libro</th>
+                    <th>Fecha de Préstamo</th>
+                    <th>Fecha de Devolución</th>
+                    <th>Estado</th>
+                    {% if user.es_bibliotecario %}
+                    <th>Acciones</th>
                     {% endif %}
-                </td>
-                <td><a href="{% url 'devolver_libro_admin' prestamo.id %}" class="btn btn-sm btn-primary">Entregado</a></td>
-            </tr>
-            {% empty %}
-            <tr>
-                <td colspan="4" class="text-center">Este usuario no tiene historial de préstamos.</td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
+                </tr>
+            </thead>
+            <tbody>
+                {% for prestamo in prestamos %}
+                <tr>
+                    <td>{{ prestamo.libro.titulo }}</td>
+                    <td>{{ prestamo.fecha_prestamo|date:"d/m/Y" }}</td>
+                    <td>{{ prestamo.fecha_devolucion|date:"d/m/Y"|default:"No devuelto" }}</td>
+                    <td>
+                        {% if prestamo.estado == 'pendiente' %}
+                        <span class="badge bg-warning text-dark">Pendiente de entrega</span>
+                        {% elif prestamo.estado == 'entregado' %}
+                        <span class="badge bg-primary">Entregado</span>
+                        {% else %}
+                        <span class="badge bg-success">Devuelto</span>
+                        {% endif %}
+                    </td>
+                    {% if user.es_bibliotecario %}
+                    <td>
+                        {% if prestamo.estado == 'pendiente' %}
+                        <a href="{% url 'entregar_libro' prestamo.id %}" class="btn btn-sm btn-primary">Entregar</a>
+                        {% elif prestamo.estado == 'entregado' %}
+                        <a href="{% url 'devolver_libro_admin' prestamo.id %}" class="btn btn-sm btn-success">Devolver</a>
+                        {% else %}
+                        <span class="text-muted">No se requieren acciones</span>
+                        {% endif %}
+                    </td>
+                    {% endif %}
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="{% if user.es_bibliotecario %}5{% else %}4{% endif %}" class="text-center">Este usuario no tiene historial de préstamos.</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
 </div>
+
+<style>
+    .table {
+        font-size: 0.9rem;
+    }
+    .table th, .table td {
+        padding: 0.5rem;
+        vertical-align: middle;
+    }
+    .btn-sm {
+        padding: 0.25rem 0.5rem;
+        font-size: 0.75rem;
+    }
+    .badge {
+        font-size: 0.8em;
+    }
+</style>
 {% endblock %}
